@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useTranslation } from "@/components/translation-provider"
 import { DynamicTranslation } from "@/components/dynamic-translation"
+import { PageTransition } from "@/components/page-transition"
 
 export default function PrescriptionScannerPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -95,7 +96,7 @@ export default function PrescriptionScannerPage() {
   }
 
   return (
-    <div className="container max-w-5xl py-8">
+    <PageTransition className="container max-w-5xl py-8">
       <h1 className="text-3xl font-bold mb-2">{t("prescription_scanner")}</h1>
       <p className="text-muted-foreground mb-8">
         Upload your prescription to extract medication details and doctor's recommendations using OCR technology.
@@ -361,7 +362,6 @@ export default function PrescriptionScannerPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageTransition>
   )
 }
-

@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { SpecialtyMenu } from "@/components/appointment/specialty-menu"
 import { DoctorCard } from "@/components/appointment/doctor-card"
+import { PageTransition } from "@/components/page-transition"
 
 export default function BookAppointmentPage() {
   const { doctors, isLoading } = useAppContext()
@@ -96,7 +97,7 @@ export default function BookAppointmentPage() {
   }, {} as Record<string, Doctor[]>)
 
   return (
-    <div className="min-h-screen bg-background">
+    <PageTransition className="min-h-screen bg-background">
       {/* Hero Banner */}
       <div className="flex bg-primary rounded-lg px-6 sm:px-10 md:px-14 lg:px-12 my-8 md:mx-10">
         {/* LEFT */}
@@ -196,7 +197,7 @@ export default function BookAppointmentPage() {
           </div>
         )}
       </div>
-    </div>
+    </PageTransition>
   )
 }
 

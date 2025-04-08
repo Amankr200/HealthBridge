@@ -37,6 +37,7 @@ interface AppContextType {
   appointments: Appointment[]
   isLoading: boolean
   currencySymbol: string
+  user: { uid: string; name: string } | null // Add the user property
   addAppointment: (appointment: Omit<Appointment, 'id' | 'status' | 'patient'>) => void
   removeAppointment: (appointmentId: number) => void
 }
@@ -47,6 +48,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState<{ uid: string; name: string } | null>(null) // Add user state
   const currencySymbol = "₹"
 
   useEffect(() => {
@@ -195,6 +197,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setTimeout(() => {
       setDoctors(doctorsData)
       setAppointments(testAppointments)
+      setUser({ uid: "example-uid", name: "John Doe" }) // Replace with actual user data
       setIsLoading(false)
     }, 1000)
 
@@ -234,6 +237,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         appointments,
         isLoading,
         currencySymbol,
+        user, // Provide user in the context
         addAppointment,
         removeAppointment
       }}
@@ -249,4 +253,4 @@ export function useAppContext() {
     throw new Error("useAppContext must be used within an AppProvider")
   }
   return context
-} 
+}

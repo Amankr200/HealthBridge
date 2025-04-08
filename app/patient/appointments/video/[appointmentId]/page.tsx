@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { PeerVideoCall } from "@/components/appointment/PeerVideoCall"
+import { PageTransition } from "@/components/page-transition"
 
 export default function VideoAppointmentPage({
   params,
@@ -15,12 +16,12 @@ export default function VideoAppointmentPage({
   }
 
   return (
-    <div className="container max-w-4xl py-8">
+    <PageTransition className="container max-w-4xl py-8">
       <PeerVideoCall
         appointmentId={params.appointmentId}
         role="patient"
         onEndCall={handleEndCall}
       />
-    </div>
+    </PageTransition>
   )
 }
