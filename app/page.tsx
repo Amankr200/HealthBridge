@@ -205,7 +205,7 @@ export default function HomePage() {
                     "HealthBridge has transformed how I access healthcare. As someone living in a rural area, the
                     telehealth services have been life-changing."
                   </p>
-                  <h4 className="font-semibold">Maria Rodriguez</h4>
+                  <h4 className="font-semibold">Kamala Devi</h4>
                   <p className="text-sm text-muted-foreground">Patient</p>
                 </div>
               </div>
@@ -226,7 +226,7 @@ export default function HomePage() {
                     "The platform allows me to reach patients who would otherwise have limited access to specialized
                     care. It's making healthcare more equitable."
                   </p>
-                  <h4 className="font-semibold">Dr. James Wilson</h4>
+                  <h4 className="font-semibold">Dr. Rajendra Gaur</h4>
                   <p className="text-sm text-muted-foreground">Healthcare Provider</p>
                 </div>
               </div>
@@ -247,7 +247,7 @@ export default function HomePage() {
                     "Partnering with HealthBridge has allowed our community center to offer better health resources to
                     our neighborhood. The multilingual support is especially valuable."
                   </p>
-                  <h4 className="font-semibold">Aisha Johnson</h4>
+                  <h4 className="font-semibold">Surendra Nath</h4>
                   <p className="text-sm text-muted-foreground">Community Partner</p>
                 </div>
               </div>
