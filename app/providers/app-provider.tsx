@@ -56,7 +56,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     const doctorsData: Doctor[] = [
       {
         _id: "1",
-        name: "Dr. Rajesh Kumar",
+        name: "Dr. Prashant Kumar",
         specialty: "Cardiologist",
         image: "/assets/doctors/doc1.png",
         degree: "MD, DM (Cardiology)",
@@ -71,7 +71,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
       {
         _id: "2",
-        name: "Dr. Priya Sharma",
+        name: "Dr. Riya Sharma",
         specialty: "Pediatrician",
         image: "/assets/doctors/doc2.png",
         degree: "MD, DNB (Pediatrics)",
@@ -86,7 +86,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
       {
         _id: "3",
-        name: "Dr. Amit Patel",
+        name: "Dr. Rajendra Gaur",
         specialty: "Orthopedist",
         image: "/assets/doctors/doc3.png",
         degree: "MS (Orthopedics)",
@@ -116,7 +116,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
       {
         _id: "5",
-        name: "Dr. Arun Verma",
+        name: "Dr. Karan Verma",
         specialty: "Dermatologist",
         image: "/assets/doctors/doc4.png",
         degree: "MD (Dermatology)",
@@ -146,7 +146,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
       {
         _id: "7",
-        name: "Dr. Vikram Singh",
+        name: "Dr. Chandan Srivastava",
         specialty: "ENT Specialist",
         image: "/assets/doctors/doc6.png",
         degree: "MS (ENT)",

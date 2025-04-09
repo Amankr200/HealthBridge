@@ -27,14 +27,35 @@ export default function HomePage() {
             <Link href="#" className="text-sm font-medium hover:text-primary">
               Home
             </Link>
-            <Link href="#" className="text-sm font-medium hover:text-primary">
+            <Link 
+              href="#services" 
+              className="text-sm font-medium hover:text-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Services
             </Link>
-            <Link href="#" className="text-sm font-medium hover:text-primary">
-              About
+            <Link 
+              href="#testimonials" 
+              className="text-sm font-medium hover:text-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Testimonials
             </Link>
-            <Link href="#" className="text-sm font-medium hover:text-primary">
-              Contact
+            <Link 
+              href="#map" 
+              className="text-sm font-medium hover:text-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('map')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Map
             </Link>
           </nav>
 
@@ -104,7 +125,7 @@ export default function HomePage() {
         </section>
 
         {/* Services Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section id="services" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -162,7 +183,7 @@ export default function HomePage() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -235,7 +256,7 @@ export default function HomePage() {
         </section>
 
         {/* Health Facilities Map Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section id="map" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -299,18 +320,18 @@ export default function HomePage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  <Link href="#services" className="text-muted-foreground hover:text-foreground">
                     Services
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground">
-                    About Us
+                  <Link href="#testimonials" className="text-muted-foreground hover:text-foreground">
+                    Testimonials
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-muted-foreground hover:text-foreground">
-                    Contact
+                  <Link href="#map" className="text-muted-foreground hover:text-foreground">
+                    Map
                   </Link>
                 </li>
               </ul>

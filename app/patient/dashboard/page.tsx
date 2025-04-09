@@ -164,7 +164,7 @@ export default function PatientDashboard() {
                             </Badge>
                             <h3 className="font-semibold">Virtual Consultation</h3>
                           </div>
-                          <p className="text-sm text-muted-foreground">Dr. Michael Chen - Cardiology</p>
+                          <p className="text-sm text-muted-foreground">Dr. Rajendra Gaur - Orthopedist</p>
                           <div className="flex items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <Calendar className="h-4 w-4" />
@@ -187,7 +187,7 @@ export default function PatientDashboard() {
                       <div className="flex items-start justify-between">
                         <div className="space-y-1">
                           <h3 className="font-semibold">Follow-up Appointment</h3>
-                          <p className="text-sm text-muted-foreground">Dr. Emily Rodriguez - Primary Care</p>
+                          <p className="text-sm text-muted-foreground">Dr. Sangeeta Gupta - Gynecologist</p>
                           <div className="flex items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <Calendar className="h-4 w-4" />
