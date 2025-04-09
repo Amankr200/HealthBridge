@@ -32,8 +32,15 @@ export function PeerVideoCall({ appointmentId, role, onEndCall }: PeerVideoCallP
         setIsConnecting(true)
         setError(null)
 
-        // Initialize PeerJS
-        const peer = new Peer()
+        // Initialize PeerJS with STUN/TURN servers for better connectivity
+        const peer = new Peer({
+          config: {
+            iceServers: [
+              { urls: 'stun:stun.l.google.com:19302' },
+              { urls: 'stun:global.stun.twilio.com:3478' }
+            ]
+          }
+        })
         peerInstance.current = peer
 
         peer.on('open', async (id) => {
@@ -43,12 +50,24 @@ export function PeerVideoCall({ appointmentId, role, onEndCall }: PeerVideoCallP
           // Get local media stream
           try {
             const stream = await navigator.mediaDevices.getUserMedia({ 
-              video: true, 
+              video: {
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+              }, 
               audio: true 
             })
             myStreamRef.current = stream
+            
+            // Ensure video element exists and set srcObject
             if (myVideoRef.current) {
               myVideoRef.current.srcObject = stream
+              // Ensure video plays
+              const playPromise = myVideoRef.current.play()
+              if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                  console.error("Video play failed:", error)
+                })
+              }
             }
 
             // If we're the patient, send the peer ID to the server
@@ -87,10 +106,28 @@ export function PeerVideoCall({ appointmentId, role, onEndCall }: PeerVideoCallP
         })
 
         // Handle incoming calls
-        peer.on('call', (call) => {
-          if (myStreamRef.current) {
+        peer.on('call', async (call) => {
+          try {
+            // Ensure we have local stream before answering
+            if (!myStreamRef.current) {
+              const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: {
+                  width: { ideal: 1280 },
+                  height: { ideal: 720 }
+                }, 
+                audio: true 
+              })
+              myStreamRef.current = stream
+              if (myVideoRef.current) {
+                myVideoRef.current.srcObject = stream
+              }
+            }
+            
             call.answer(myStreamRef.current)
             handleCall(call)
+          } catch (err) {
+            console.error('Error answering call:', err)
+            setError('Failed to establish video call connection')
           }
         })
 
@@ -118,15 +155,29 @@ export function PeerVideoCall({ appointmentId, role, onEndCall }: PeerVideoCallP
 
   const handleCall = (call: any) => {
     call.on('stream', (remoteStream: MediaStream) => {
+      console.log('Received remote stream')
       if (remoteVideoRef.current) {
         remoteVideoRef.current.srcObject = remoteStream
+        // Ensure remote video plays
+        const playPromise = remoteVideoRef.current.play()
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.error("Remote video play failed:", error)
+          })
+        }
       }
     })
 
     call.on('close', () => {
+      console.log('Call closed')
       if (remoteVideoRef.current) {
         remoteVideoRef.current.srcObject = null
       }
+    })
+
+    call.on('error', (err: any) => {
+      console.error('Call error:', err)
+      setError('Video call connection error')
     })
   }
 
