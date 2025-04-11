@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Video, Loader2, User, Mic, MicOff, VideoOff } from 'lucide-react';
+import { Video, Loader2, User, Mic, MicOff, VideoOff, AlertCircle } from 'lucide-react';
 
 const LoadingState = ({ message, submessage }: { message: string; submessage: string }) => (
   <div className="absolute inset-0 bg-[#0f1116] flex flex-col items-center justify-center">
@@ -18,23 +18,83 @@ export default function VideoCall() {
   const [isWaiting, setIsWaiting] = useState(true);
   const [isDoctor, setIsDoctor] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isVideoInitialized, setIsVideoInitialized] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const checkMediaPermissions = async () => {
+    try {
+      // Check if the browser supports getUserMedia
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Your browser does not support video calls. Please use a modern browser.');
+      }
+
+      // Check if we're on HTTPS or localhost
+      if (typeof window !== 'undefined' && 
+          window.location.protocol !== 'https:' && 
+          window.location.hostname !== 'localhost') {
+        throw new Error('Video calls require a secure connection (HTTPS).');
+      }
+
+      // Check if the device has a camera
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const hasCamera = devices.some(device => device.kind === 'videoinput');
+      if (!hasCamera) {
+        throw new Error('No camera detected. Please connect a camera and try again.');
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Media permissions check failed:', err);
+      setError(err instanceof Error ? err.message : 'Failed to access camera.');
+      return false;
+    }
+  };
+
   const startVideo = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+      setError(null);
+      
+      const permissionsOk = await checkMediaPermissions();
+      if (!permissionsOk) return;
+
+      const constraints = {
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          facingMode: 'user'
+        },
         audio: true
-      });
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().catch(e => {
+            console.error('Video play failed:', e);
+            setError('Failed to play video stream. Please try again.');
+          });
+        };
+        setIsVideoInitialized(true);
       }
-      setError(null);
     } catch (err) {
       console.error('Error accessing camera:', err);
-      setError('Failed to access camera. Please make sure you have granted camera permissions.');
+      if (err instanceof Error) {
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          setError('Camera access denied. Please grant camera permissions and try again.');
+        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+          setError('No camera found. Please connect a camera and try again.');
+        } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+          setError('Camera is in use by another application. Please close other apps using the camera.');
+        } else {
+          setError('Failed to access camera. Please check your camera settings and try again.');
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+      setIsVideoInitialized(false);
     }
   };
 
@@ -46,6 +106,7 @@ export default function VideoCall() {
         const stream = videoRef.current.srcObject as MediaStream;
         stream.getTracks().forEach(track => track.stop());
       }
+      setIsVideoInitialized(false);
     };
   }, []);
 
@@ -209,15 +270,21 @@ export default function VideoCall() {
         </CardHeader>
         <CardContent className="p-6">
           {error ? (
-            <div className="p-4 bg-red-500/10 rounded-lg border border-red-500/20">
-              <p className="text-red-400">{error}</p>
-              <Button
-                variant="outline"
-                className="mt-2 text-white border-white/20 hover:bg-white/10"
-                onClick={startVideo}
-              >
-                Try Again
-              </Button>
+            <div className="p-6 bg-red-500/10 rounded-lg border border-red-500/20">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-red-400 mt-0.5" />
+                <div>
+                  <h3 className="text-red-400 font-medium mb-1">Camera Access Error</h3>
+                  <p className="text-red-400/90 text-sm">{error}</p>
+                  <Button
+                    variant="outline"
+                    className="mt-4 text-white border-white/20 hover:bg-white/10"
+                    onClick={startVideo}
+                  >
+                    Try Again
+                  </Button>
+                </div>
+              </div>
             </div>
           ) : (
             isDoctor ? <DoctorView /> : <PatientView />
