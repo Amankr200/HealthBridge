@@ -71,29 +71,37 @@ export default function VideoCall() {
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play().catch(e => {
-            console.error('Video play failed:', e);
-            setError('Failed to play video stream. Please try again.');
-          });
-        };
+        await new Promise((resolve) => {
+          if (videoRef.current) {
+            videoRef.current.onloadedmetadata = resolve;
+          }
+        });
+        
+        await videoRef.current.play();
         setIsVideoInitialized(true);
       }
     } catch (err) {
       console.error('Error accessing camera:', err);
-      if (err instanceof Error) {
-        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-          setError('Camera access denied. Please grant camera permissions and try again.');
-        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-          setError('No camera found. Please connect a camera and try again.');
-        } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
-          setError('Camera is in use by another application. Please close other apps using the camera.');
-        } else {
-          setError('Failed to access camera. Please check your camera settings and try again.');
+      let message = 'Failed to access camera. Please check your camera settings and try again.';
+      
+      if (err instanceof DOMException) {
+        switch (err.name) {
+          case 'NotAllowedError':
+          case 'PermissionDeniedError':
+            message = 'Camera access denied. Please allow camera permissions in your browser settings.';
+            break;
+          case 'NotFoundError':
+          case 'DevicesNotFoundError':
+            message = 'No camera found. Please connect a camera and try again.';
+            break;
+          case 'NotReadableError':
+          case 'TrackStartError':
+            message = 'Camera is already in use. Close other apps using the camera and try again.';
+            break;
         }
-      } else {
-        setError('An unexpected error occurred. Please try again.');
       }
+      
+      setError(message);
       setIsVideoInitialized(false);
     }
   };
