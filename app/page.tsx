@@ -85,7 +85,7 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      export default function WhatsAppButton() {
+       
    
     <a
       href="https://www.whatsapp.com/channel/0029VbAIhK7JP20yCocKHE2c"  
@@ -101,7 +101,7 @@ export default function HomePage() {
       />
     </a>
   
-}
+ 
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-primary/10 to-background">
