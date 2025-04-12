@@ -85,7 +85,23 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-
+      export default function WhatsAppButton() {
+   
+    <a
+      href="https://www.whatsapp.com/channel/0029VbAIhK7JP20yCocKHE2c" // <-- Replace with your actual community link
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Join WhatsApp Community"
+      className="fixed bottom-5 right-5 w-[60px] h-[60px] bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform z-50"
+    >
+      <img
+        src="https://img.icons8.com/color/48/000000/whatsapp--v1.png"
+        alt="WhatsApp"
+        className="w-[30px] h-[30px]"
+      />
+    </a>
+  
+}
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-primary/10 to-background">
