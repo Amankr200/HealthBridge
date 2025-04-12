@@ -88,7 +88,7 @@ export default function HomePage() {
       export default function WhatsAppButton() {
    
     <a
-      href="https://www.whatsapp.com/channel/0029VbAIhK7JP20yCocKHE2c" // <-- Replace with your actual community link
+      href="https://www.whatsapp.com/channel/0029VbAIhK7JP20yCocKHE2c"  
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Join WhatsApp Community"
